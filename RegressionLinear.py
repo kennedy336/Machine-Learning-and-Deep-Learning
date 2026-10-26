@@ -79,3 +79,47 @@ reg.fit(X_train, y_train)
 # Make predictions (Note: predict takes only the test features, X_test)
 y_pred = reg.predict(X_test)
 print("Predictions: {}, Actual Values: {}".format(y_pred[:2], y_test[:2]))
+
+
+# CROSS VALIDATION
+from sklearn.model_selection import KFold, cross_val_score
+
+# Create a KFold object
+kf = KFold(n_splits=5, shuffle=True, random_state=42)
+
+reg = LinearRegression()
+
+# Compute 6-fold cross-validation scores
+cv_scores = cross_val_score(reg, X, y, cv=kf)
+
+print(cv_scores)
+
+# Regulazition L2 Ridge
+from sklearn.linear_model import Ridge
+
+alphas = [0.1, 1.0, 10.0, 100.0, 1000.0, 10000.0]
+ridge_scores = []
+
+for alpha in alphas:
+    ridge = Ridge(alpha=alpha)
+    
+    # Fit the data using training features and training targets
+    ridge.fit(X_train, y_train)
+    score = ridge.score(X_test, y_test)
+    ridge_scores.append(score)
+
+print(ridge_scores)
+
+#Lasso Regression L1 REgularization
+from sklearn.linear_model import Lasso
+
+alpha = 0.3
+lasso = Lasso(alpha)
+lasso.fit(X, y)
+
+# Compute and print the coefficients
+lasso_coef = lasso.coef_
+print(lasso_coef)
+plt.bar(sales_columns, lasso_coef)
+plt.xticks(rotation=45)
+plt.show()
