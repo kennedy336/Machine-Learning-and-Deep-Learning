@@ -57,3 +57,14 @@ plt.legend()
 plt.xlabel("Number of Neighbors")
 plt.ylabel("Accuracy")
 plt.show()
+
+# consufion matrix and classification report
+from sklearn.metrics import confusion_matrix, classification_report
+
+knn = KNeighborsClassifier(n_neighbors=6)
+
+knn.fit(X_train, y_train)
+y_pred = knn.predict(X_test)
+# Generate the confusion matrix and classification report
+print(confusion_matrix(y_test, y_pred))
+print(classification_report(y_test, y_pred))
