@@ -38,3 +38,32 @@ centroids_y = centroids[:,1]
 # Make a scatter plot of centroids_x and centroids_y
 plt.scatter(centroids_x, centroids_y,marker='D',s=50)
 plt.show()
+
+
+# How many clusters of grain ?
+ks = range(1, 6)
+inertias = []
+
+for k in ks:
+    model = KMeans(n_clusters=k)
+    model.fit(samples)
+    
+    # Append the inertia to the list of inertias
+    inertias.append(model.inertia_)
+    
+# Plot ks vs inertias
+plt.plot(ks, inertias, '-o')
+plt.xlabel('number of clusters, k')
+plt.ylabel('inertia')
+plt.xticks(ks)
+plt.show()
+
+# Evaluting the clustering with crosstab
+model = KMeans(n_clusters=3)
+labels = model.fit_predict(samples)
+
+df = pd.DataFrame({'labels': labels, 'varieties': varieties})
+
+# Create crosstab: ct
+ct = pd.crosstab(df['labels'], df['varieties'])
+print(ct)
