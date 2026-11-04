@@ -67,3 +67,50 @@ df = pd.DataFrame({'labels': labels, 'varieties': varieties})
 # Create crosstab: ct
 ct = pd.crosstab(df['labels'], df['varieties'])
 print(ct)
+
+
+# Scaling fish data for clustering
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import KMeans
+
+# Create scaler: scaler
+scaler = StandardScaler()
+
+# Create KMeans instance: kmeans
+kmeans = KMeans(n_clusters=4)
+
+# Create pipeline: pipeline
+pipeline = make_pipeline(scaler, kmeans)
+
+
+# Clustering the fish data
+import pandas as pd
+
+pipeline.fit(samples)
+labels = pipeline.predict(samples)
+df = pd.DataFrame({'labels': labels, 'species': species})
+# Create crosstab: ct
+ct = pd.crosstab(df['labels'], df['species'])
+print(ct)
+
+# Clustering stocks with KMeans
+from sklearn.preprocessing import Normalizer
+
+normalizer = Normalizer()
+kmeans = KMeans(n_clusters=10)
+
+# Make a pipeline chaining normalizer and kmeans: pipeline
+pipeline = make_pipeline(normalizer, kmeans)
+
+# Fit pipeline to the daily price movements
+pipeline.fit(movements)
+
+# Predict the cluster labels: labels
+import pandas as pd
+
+# Predict the cluster labels: labels
+labels = pipeline.predict(movements)
+df = pd.DataFrame({'labels': labels, 'companies': companies})
+# Display df sorted by cluster label
+print(df.sort_values('labels'))
